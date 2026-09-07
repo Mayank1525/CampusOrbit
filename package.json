@@ -1,0 +1,48 @@
+{
+  "name": "campusorbit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CampusOrbit \u2014 from confusion to career-ready. A MERN platform that gives students one clear path, one curated video per topic, honest preparation tracking and a real placement pipeline.",
+  "keywords": [
+    "mern",
+    "mongodb",
+    "express",
+    "react",
+    "nodejs",
+    "placement",
+    "campus",
+    "student",
+    "learning-path",
+    "socket.io"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0",
+    "npm": ">=10.0.0"
+  },
+  "_comment_workspaces": "Deliberately NOT an npm workspace. server/ and client/ install independently via `npm --prefix`, each with its own lockfile. Declaring workspaces here made npm hoist packages to the root and skip platform-specific optional dependencies (npm/cli#4828), which broke `vite` on Windows with 'Cannot find module @rollup/rollup-win32-x64-msvc'.",
+  "scripts": {
+    "install:all": "node scripts/install-all.mjs",
+    "fix:install": "node scripts/fix-install.mjs",
+    "dev": "concurrently -n \"API,WEB\" -c \"magenta,cyan\" \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "build": "npm --prefix client run build",
+    "start": "npm --prefix server start",
+    "serve": "npm run build && npm start",
+    "test": "npm run test:api && npm run test:socket",
+    "test:api": "node server/test-api.mjs",
+    "test:socket": "node server/test-socket.mjs",
+    "db:up": "docker compose up -d mongo",
+    "db:down": "docker compose down",
+    "docker:up": "docker compose up --build",
+    "docker:down": "docker compose down -v",
+    "verify": "node scripts/verify.mjs",
+    "test:all": "node server/test-api.mjs && node server/test-socket.mjs && node server/test-client-endpoints.mjs && node server/test-chat-2session.mjs && node server/test-watch-sync.mjs && node server/test-race-conditions.mjs && node server/test-onboarding-loop.mjs && node server/test-meet.mjs",
+    "test:meet": "node server/test-meet.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

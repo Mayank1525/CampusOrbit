@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/orbit.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#05060f" />
+    <!-- Never let a browser serve a stale index.html. Hashed asset filenames
+         handle cache-busting for JS/CSS, but a cached shell would keep loading
+         the OLD bundle after a deploy, which makes fixed bugs look unfixed. -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta
+      name="description"
+      content="CampusOrbit — From confusion to career-ready. One guided path for placement, internship and competitive-exam preparation."
+    />
+    <title>CampusOrbit — From confusion to career-ready</title>
+    <style>
+      /* Prevent white flash before CSS loads */
+      html, body, #root { background: #05060f; color: #e6e8f2; margin: 0; min-height: 100%; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

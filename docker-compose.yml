@@ -1,0 +1,93 @@
+# CampusOrbit — local stack
+#
+#   docker compose up -d mongo     -> just the database (run the app with npm run dev)
+#   docker compose up --build      -> database + the full app on http://localhost:5000
+#
+# NOTE: the app service builds the React client and serves it from Express, so a
+# single container exposes both the SPA and the API on port 5000.
+
+services:
+  mongo:
+    image: mongo:7.0.24
+    container_name: campusorbit-mongo
+    restart: unless-stopped
+    # Bind to loopback only: the database must not be reachable from the LAN.
+    ports:
+      - '127.0.0.1:27017:27017'
+    environment:
+      MONGO_INITDB_DATABASE: campusorbit
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - campusorbit
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campusorbit-app
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      PORT: '5000'
+      MONGODB_URI: mongodb://mongo:27017/campusorbit
+      JWT_SECRET: ${JWT_SECRET:-campusorbit_change_this_secret_in_production}
+      JWT_EXPIRES_IN: 7d
+      COOKIE_SECURE: 'false'
+      CLIENT_ORIGIN: http://localhost:5000
+      UPLOAD_DIR: uploads
+      # Leave empty to run in the honest "Demo AI Mode" fallback.
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+    volumes:
+      - uploads_data:/app/server/uploads
+    # Hardening: no new privileges, read-only root FS (uploads/tmp stay writable).
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:5000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 25s
+    networks:
+      - campusorbit
+
+  # One-shot seeder. Run explicitly:  docker compose run --rm seed
+  seed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: campusorbit-seed
+    profiles: ['tools']
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: mongodb://mongo:27017/campusorbit
+      JWT_SECRET: ${JWT_SECRET:-campusorbit_change_this_secret_in_production}
+    command: ['npm', '--prefix', 'server', 'run', 'seed']
+    networks:
+      - campusorbit
+
+volumes:
+  mongo_data:
+  uploads_data:
+
+networks:
+  campusorbit:
+    driver: bridge
