@@ -375,6 +375,18 @@ Python
 
 PHP
 
+🎯 Experience at a Glance
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=react,vite,tailwind,nodejs,express,mongodb,js,socketio,docker,git&perline=10" alt="Technology stack icons" />
+
+<br/><br/>
+
+<img src="https://github-readme-stats.vercel.app/api?username=Mayank1525&show_icons=true&hide_border=true&rank_icon=github&theme=transparent" alt="GitHub stats" />
+
+</div>
+
 Architecture
 
 ┌──────────────────────────────────────────────────────────────┐
@@ -1550,6 +1562,21 @@ campusorbit/
         └── pages/
             ├── auth/
             └── admin/
+
+👨‍💻 Author & Credits
+
+<div align="center">
+
+Mayank Vishwakarma
+
+<a href="https://github.com/Mayank1525">
+  <img src="https://img.shields.io/badge/GitHub-Mayank1525-181717?style=for-the-badge&logo=github" alt="GitHub"/>
+</a>
+<a href="https://www.linkedin.com/in/mayank-vishwakarma-1636771b6/">
+  <img src="https://img.shields.io/badge/LinkedIn-Mayank%20Vishwakarma-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+</a>
+
+</div>
 
 License
 
