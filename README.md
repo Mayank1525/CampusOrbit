@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CampusOrbit
 
 > **From confusion to career-ready.**
