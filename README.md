@@ -183,27 +183,6 @@ Additional students, all `Student@123`:
 
 ---
 
-## Docker
-
-```bash
-# database only — run the app with npm run dev
-docker compose up -d mongo
-
-# full stack: MongoDB + the built app on http://localhost:5000
-docker compose up --build
-
-# seed inside Docker
-docker compose run --rm seed
-```
-
-The `app` service is a two-stage build: stage one compiles the Vite client, stage two installs
-production server dependencies and serves the built SPA from Express. One container, one port.
-
-> **Note:** Docker was not available in the environment this project was developed in, so
-> `docker-compose.yml` and the `Dockerfile` are written to spec but have not been executed here.
-> The non-Docker path (`npm run install:all && npm run seed && npm run dev`) is fully verified.
-
----
 
 ## Environment variables
 
